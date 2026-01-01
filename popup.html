@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Text Explainer - Settings</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 400px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #1f2937;
+    }
+
+    .container {
+      background: white;
+      border-radius: 0;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .radio-option {
+      flex: 1;
+      position: relative;
+    }
+
+    .radio-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .radio-option label {
+      display: block;
+      padding: 12px;
+      background: #f3f4f6;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: none;
+      font-weight: 500;
+    }
+
+    .radio-option input[type="radio"]:checked+label {
+      background: #667eea;
+      border-color: #667eea;
+      color: white;
+    }
+
+    .radio-option label:hover {
+      border-color: #667eea;
+    }
+
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Courier New', monospace;
+      transition: border-color 0.2s ease;
+    }
+
+    input[type="password"]:focus,
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .help-text {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .help-text a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .help-text a:hover {
+      text-decoration: underline;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #5568d3;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .message.success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #10b981;
+      display: block;
+    }
+
+    .message.error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #ef4444;
+      display: block;
+    }
+
+    .instructions {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #92400e;
+      margin-top: 20px;
+    }
+
+    .instructions h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #78350f;
+    }
+
+    .instructions ol {
+      margin-left: 20px;
+      margin-top: 8px;
+    }
+
+    .instructions li {
+      margin-bottom: 6px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 12px;
+      color: #6b7280;
+      border-top: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🤖 AI Text Explainer</h1>
+      <p>Configure your AI provider and API key</p>
+    </div>
+
+    <div class="content">
+      <div id="message" class="message"></div>
+
+      <form id="settingsForm">
+        <div class="form-group">
+          <label>Choose AI Provider</label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="openai" name="apiProvider" value="openai" checked>
+              <label for="openai">OpenAI GPT</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="gemini" name="apiProvider" value="gemini">
+              <label for="gemini">Google Gemini</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Response Mode</label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="explain" name="responseMode" value="explain" checked>
+              <label for="explain">📖 Explain</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="direct" name="responseMode" value="direct" checked>
+              <label for="direct">🎯 Direct Answer</label>
+            </div>
+          </div>
+          <div class="help-text">
+            <strong>Explain:</strong> Get detailed explanations with context.<br>
+            <strong>Direct Answer:</strong> Get the correct answer only, no explanation.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="apiKey">API Key</label>
+          <input type="password" id="apiKey" name="apiKey" placeholder="Enter your API key here" autocomplete="off">
+          <div class="help-text">
+            Your API key is stored locally and never sent anywhere except to the selected AI provider.
+          </div>
+        </div>
+
+        <button type="submit" class="btn" id="saveBtn">Save Settings</button>
+      </form>
+
+      <div class="instructions">
+        <h3>📝 How to get your API key:</h3>
+        <ol>
+          <li><strong>OpenAI:</strong> Visit <a href="https://platform.openai.com/api-keys"
+              target="_blank">platform.openai.com/api-keys</a></li>
+          <li><strong>Gemini:</strong> Visit <a href="https://makersuite.google.com/app/apikey"
+              target="_blank">makersuite.google.com/app/apikey</a></li>
+          <li>Create an account if needed</li>
+          <li>Generate a new API key</li>
+          <li>Copy and paste it above</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="footer">
+      Select text on any page → Right-click → "Explain this text"
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
